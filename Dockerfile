@@ -4,4 +4,4 @@ WORKDIR /workspace
 COPY . .
 RUN pip install -r requirements.txt 
 CMD /workspace/launch.sh
-EXPOSE 3000
+EXPOSE 6080
