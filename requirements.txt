@@ -1,1 +1,4 @@
+Flask
+connexion
+requests
 TestlinkApiClient
