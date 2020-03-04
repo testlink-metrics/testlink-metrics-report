@@ -93,11 +93,11 @@
     </nav>
   </div>
 
-  <div class="container text-light" id="tmrReport" style="margin-top: 15px;">
+  <div class="container text-light" id="tmrReport" style="margin-top: 20px;">
     <div class="row">
       <div class="col-3" id="tmrReportSuite">
         <a class="nav-link">Requirement</a>
-        <ul>
+        <!-- <ul>
           <li class="el-icon-folder-opened">API
             <ul>
               <li class="el-icon-document">Case 1</li><br>
@@ -105,15 +105,16 @@
           </li><br>
           <li class="el-icon-folder-opened">登录</li><br>
           <li class="el-icon-folder-opened">注册</li><br>
-        </ul>
+        </ul> -->
       </div>
       <div class="col-8" id="tmrReportDetail">
         <div class="row">
           <div class="col-3">Executed/Total: {{ summary.executed }}/{{ summary.total }}</div>
           <div class="col-9">
             <div class="progress" style="height: 20px;">
-              <div class="progress-bar bg-primary" role="progressbar" style="width: {{ summary.executed_rate }}%" aria-valuenow="{{ summary.executed_rate }}"
-                aria-valuemin="0" aria-valuemax="100">{{ summary.executed_rate }}%</div>
+              <div class="progress-bar bg-primary" role="progressbar" style="width: {{ summary.executed_rate }}%"
+                aria-valuenow="{{ summary.executed_rate }}" aria-valuemin="0" aria-valuemax="100">
+                {{ summary.executed_rate }}%</div>
             </div>
           </div>
         </div>
@@ -121,50 +122,104 @@
           <div class="col-3">Pass/Executed: {{ summary.pass }}/{{ summary.executed }}</div>
           <div class="col-9">
             <div class="progress" style="height: 20px;">
-              <div class="progress-bar bg-success" role="progressbar" style="width: {{ summary.pass_rate }}%" aria-valuenow="{{ summary.pass_rate }}"
-                aria-valuemin="0" aria-valuemax="100">{{ summary.pass_rate }}%</div>
-              <div class="progress-bar bg-danger" role="progressbar" style="width: {{ summary.fail_rate }}%" aria-valuenow="{{ summary.fail_rate }}"
-                aria-valuemin="0" aria-valuemax="100">{{ summary.fail_rate }}%</div>
-              <div class="progress-bar bg-warning" role="progressbar" style="width: {{ summary.block_rate }}%" aria-valuenow="{{ summary.block_rate }}"
-                aria-valuemin="0" aria-valuemax="100">{{ summary.block_rate }}%</div>
+              <div class="progress-bar bg-success" role="progressbar" style="width: {{ summary.pass_rate }}%"
+                aria-valuenow="{{ summary.pass_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.pass_rate }}%
+              </div>
+              <div class="progress-bar bg-danger" role="progressbar" style="width: {{ summary.fail_rate }}%"
+                aria-valuenow="{{ summary.fail_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.fail_rate }}%
+              </div>
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{ summary.block_rate }}%"
+                aria-valuenow="{{ summary.block_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.block_rate }}%
+              </div>
             </div>
           </div>
         </div>
-        <!-- <div class="row">
+        <div class="row" style="margin-top: 20px;">
           <div class="col-12">
-            {{ summary }}
-        </div> -->
+            <table class="table table-bordered table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">Total</th>
+                  <th scope="col">Executed</th>
+                  <th scope="col">Pass</th>
+                  <th scope="col">Fail</th>
+                  <th scope="col">Block</th>
+                  <th scope="col">NotRun</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ summary.total }}</td>
+                  <td>{{ summary.executed }}</td>
+                  <td>{{ summary.pass }}</td>
+                  <td>{{ summary.fail }}</td>
+                  <td>{{ summary.block }}</td>
+                  <td>{{ summary.notrun }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+          <div class="col-12">
+            <table class="table table-bordered table-light">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ckey, cvalue in summary.case.items() %}
+                <tr>
+                  <td>{{ ckey }}</td>
+                  <td>{{ cvalue.case_name }}</td>
+                  {% if cvalue.exec_status == 'p' %}
+                  <td class="text-success">PASS</td>
+                  {% elif cvalue.exec_status == 'f' %}
+                  <td class="text-danger">FAIL</td>
+                  {% elif cvalue.exec_status == 'b' %}
+                  <td class="text-warning">BLOCK</td>
+                  {% elif cvalue.exec_status == 'n' %}
+                  <td class="text-secondary">NOTRUN</td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <script>
-    $(function () {
-      $('#tmrSelectProject').on('change', function() {
-        var project_id = $('#tmrSelectProject').val();
-        var plan_id = $('#tmrSelectPlan').val();
-        var build_id = $('#tmrSelectBuild').val();
-        var platform_id = $('#tmrSelectPlatform').val();
-        var suite_id = ''
-        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
+    <script>
+      $(function () {
+        $('#tmrSelectProject').on('change', function () {
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          var suite_id = ''
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
+        });
+        $('#tmrSelectPlan').on('change', function () {
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          var suite_id = ''
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
+        });
+        $('#tmrGenerateReport').click(function () {
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          var suite_id = ''
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
+        });
       });
-      $('#tmrSelectPlan').on('change', function() {
-        var project_id = $('#tmrSelectProject').val();
-        var plan_id = $('#tmrSelectPlan').val();
-        var build_id = $('#tmrSelectBuild').val();
-        var platform_id = $('#tmrSelectPlatform').val();
-        var suite_id = ''
-        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
-      });
-      $('#tmrGenerateReport').click(function() {
-        var project_id = $('#tmrSelectProject').val();
-        var plan_id = $('#tmrSelectPlan').val();
-        var build_id = $('#tmrSelectBuild').val();
-        var platform_id = $('#tmrSelectPlatform').val();
-        var suite_id = ''
-        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
-      });
-    });
-  </script>
+    </script>
 </body>
 
 </html>

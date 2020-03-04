@@ -64,20 +64,26 @@ class TMRClient(object):
             'fail': 0,
             'fail_rate': 0,
             'block': 0,
-            'block_rate': 0
+            'block_rate': 0,
+            'notrun': 0,
+            'notrun_rate': 0,
+            'case': dict()
         }
         if project_id and plan_id and build_id and platform_id:
             try:
-                _summary = self.testlink.get_report_for_plan(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id)
-                summary['total'] = sum(_summary.values())
-                summary['executed'] = sum([_summary['pass'], _summary['fail'], _summary['block']])
+                _data = self.testlink.get_report_for_plan(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id)
+                summary['total'] = sum([_data['pass'], _data['fail'], _data['block'], _data['notrun']])
+                summary['executed'] = sum([_data['pass'], _data['fail'], _data['block']])
                 summary['executed_rate'] = '%.2f' % float(summary['executed']/summary['total']*100)
-                summary['pass'] = _summary['pass']
-                summary['pass_rate'] = '%.2f' % float(summary['pass']/summary['executed']*100)
-                summary['fail'] = _summary['fail']
-                summary['fail_rate'] = '%.2f' % float(summary['fail']/summary['executed']*100)
-                summary['block'] = _summary['block']
-                summary['block_rate'] = '%.2f' % float(summary['block']/summary['executed']*100)
+                summary['pass'] = _data['pass']
+                summary['pass_rate'] = '%.2f' % float(_data['pass']/summary['executed']*100)
+                summary['fail'] = _data['fail']
+                summary['fail_rate'] = '%.2f' % float(_data['fail']/summary['executed']*100)
+                summary['block'] = _data['block']
+                summary['block_rate'] = '%.2f' % float(_data['block']/summary['executed']*100)
+                summary['notrun'] = _data['notrun']
+                summary['notrun_rate'] = '%.2f' % float(_data['notrun']/summary['total']*100)
+                summary['case'] = _data['case']
             except Exception as e:
                 print(e)
         return summary
