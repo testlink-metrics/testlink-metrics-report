@@ -1,0 +1,11 @@
+version: '3'
+services: 
+  testlink-metrics:
+    container_name: testlink-metrics
+    image: bxwill/testlink-metrics
+    ports:
+      - 80:3000
+    env:
+      TESTLINK_URL: ''
+      TESTLINK_USER: ''
+      TESTLINK_DEVKEY: ''
