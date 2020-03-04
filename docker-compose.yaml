@@ -2,11 +2,12 @@ version: '3'
 services: 
   testlink-metrics:
     container_name: testlink-metrics
-    image: bxwill/testlink-metrics
+#    image: bxwill/testlink-metrics
+    image: qqqq:qqqq
     restart: always
     ports:
-      - 80:3000
+      - 6080:6080
     environment:
-      TESTLINK_URL: ''
-      TESTLINK_USER: ''
-      TESTLINK_DEVKEY: ''
+      TESTLINK_URL: 'http://10.10.111.1:6680'
+      TESTLINK_USER: 'robot'
+      TESTLINK_DEVKEY: 'd4cb375d46a7816fec839aa5cb18775a'

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, jsonify, render_template, request
-import connexion
 import logging
 import requests
 from metrics.svc.tmr_client import TMRClient
@@ -39,4 +38,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(port=6080, debug=True)
+    app.run(host='0.0.0.0', port=6080, debug=True)
