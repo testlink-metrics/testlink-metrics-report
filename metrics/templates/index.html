@@ -162,7 +162,7 @@
         </div>
         <div class="row" style="margin-top: 20px;">
           <div class="col-12">
-            <table class="table table-bordered table-light">
+            <table class="table table-bordered table-secondary">
               <thead>
                 <tr>
                   <th scope="col">ID</th>
@@ -181,7 +181,7 @@
                   <td class="text-danger">FAIL</td>
                   {% elif cvalue.exec_status == 'b' %}
                   <td class="text-warning">BLOCK</td>
-                  {% elif cvalue.exec_status == 'n' %}
+                  {% else %}
                   <td class="text-secondary">NOTRUN</td>
                   {% endif %}
                 </tr>

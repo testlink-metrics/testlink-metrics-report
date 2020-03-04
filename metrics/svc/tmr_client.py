@@ -74,15 +74,25 @@ class TMRClient(object):
                 _data = self.testlink.get_report_for_plan(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id)
                 summary['total'] = sum([_data['pass'], _data['fail'], _data['block'], _data['notrun']])
                 summary['executed'] = sum([_data['pass'], _data['fail'], _data['block']])
-                summary['executed_rate'] = '%.2f' % float(summary['executed']/summary['total']*100)
+                summary['executed_rate'] = 0 \
+                    if summary['total'] == 0 \
+                    else '%.2f' % float(summary['executed']/summary['total']*100)
                 summary['pass'] = _data['pass']
-                summary['pass_rate'] = '%.2f' % float(_data['pass']/summary['executed']*100)
+                summary['pass_rate'] = 0 \
+                    if summary['executed'] == 0 \
+                    else '%.2f' % float(_data['pass']/summary['executed']*100)
                 summary['fail'] = _data['fail']
-                summary['fail_rate'] = '%.2f' % float(_data['fail']/summary['executed']*100)
+                summary['fail_rate'] = 0 \
+                    if summary['executed'] == 0 \
+                    else '%.2f' % float(_data['fail']/summary['executed']*100)
                 summary['block'] = _data['block']
-                summary['block_rate'] = '%.2f' % float(_data['block']/summary['executed']*100)
+                summary['block_rate'] = 0 \
+                    if summary['executed'] == 0 \
+                    else '%.2f' % float(_data['block']/summary['executed']*100)
                 summary['notrun'] = _data['notrun']
-                summary['notrun_rate'] = '%.2f' % float(_data['notrun']/summary['total']*100)
+                summary['notrun_rate'] = 0 \
+                    if summary['total'] == 0 \
+                    else '%.2f' % float(_data['notrun']/summary['total']*100)
                 summary['case'] = _data['case']
             except Exception as e:
                 print(e)
@@ -90,3 +100,7 @@ class TMRClient(object):
     
     def get_requirement(self):
         pass
+
+
+if __name__ == '__main__':
+    print('This TMR Client')
