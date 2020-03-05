@@ -140,9 +140,10 @@
         </div>
         <div class="row" style="margin-top: 20px;">
           <div class="col-12">
-            <table class="table table-bordered table-dark">
+            <table class="table table-bordered table-dark text-center">
               <thead>
                 <tr>
+                  <th scope="col"></th>
                   <th scope="col">Total</th>
                   <th scope="col">Executed</th>
                   <th scope="col">Pass</th>
@@ -153,12 +154,22 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>Count</td>
                   <td>{{ summary.total }}</td>
-                  <td>{{ summary.executed }} [ {{ summary.executed_rate }} ]</td>
-                  <td>{{ summary.pass }} [ {{ summary.pass_total_rate }}|{{ summary.pass_rate }} ]</td>
-                  <td>{{ summary.fail }} [ {{ summary.fail_total_rate }}|{{ summary.fail_rate }} ]</td>
-                  <td>{{ summary.block }} [ {{ summary.block_total_rate }}|{{ summary.block_rate }} ]</td>
-                  <td>{{ summary.notrun }} [ {{ summary.notrun_rate }} ]</td>
+                  <td>{{ summary.executed }}</td>
+                  <td>{{ summary.pass }}</td>
+                  <td>{{ summary.fail }}</td>
+                  <td>{{ summary.block }}</td>
+                  <td>{{ summary.notrun }}</td>
+                </tr>
+                <tr>
+                  <td>Rate</td>
+                  <td></td>
+                  <td>{{ summary.executed_rate }}%</td>
+                  <td>{{ summary.pass_total_rate }}% | {{ summary.pass_rate }}%</td>
+                  <td>{{ summary.fail_total_rate }}% | {{ summary.fail_rate }}%</td>
+                  <td>{{ summary.block_total_rate }}% | {{ summary.block_rate }}%</td>
+                  <td>{{ summary.notrun_rate }}%</td>
                 </tr>
               </tbody>
             </table>
@@ -171,7 +182,8 @@
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Title</th>
-                  <th scope="col">Status</th>
+                  <th scope="col">Result</th>
+                  <th scope="col">Bug</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,12 +193,16 @@
                   <td>{{ cvalue.case_name }}</td>
                   {% if cvalue.exec_status == 'p' %}
                   <td class="text-success">PASS</td>
+                  <td></td>
                   {% elif cvalue.exec_status == 'f' %}
                   <td class="text-danger">FAIL</td>
+                  <td></td>
                   {% elif cvalue.exec_status == 'b' %}
                   <td class="text-warning">BLOCK</td>
+                  <td></td>
                   {% else %}
                   <td class="text-secondary">NOTRUN</td>
+                  <td></td>
                   {% endif %}
                 </tr>
                 {% endfor %}
