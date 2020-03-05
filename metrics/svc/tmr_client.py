@@ -81,14 +81,23 @@ class TMRClient(object):
                 summary['pass_rate'] = 0 \
                     if summary['executed'] == 0 \
                     else '%.2f' % float(_data['pass']/summary['executed']*100)
+                summary['pass_total_rate'] = 0 \
+                    if summary['total'] == 0 \
+                    else '%.2f' % float(_data['pass'] / summary['total'] * 100)
                 summary['fail'] = _data['fail']
                 summary['fail_rate'] = 0 \
                     if summary['executed'] == 0 \
                     else '%.2f' % float(_data['fail']/summary['executed']*100)
+                summary['fail_total_rate'] = 0 \
+                    if summary['total'] == 0 \
+                    else '%.2f' % float(_data['fail']/summary['total']*100)
                 summary['block'] = _data['block']
                 summary['block_rate'] = 0 \
                     if summary['executed'] == 0 \
                     else '%.2f' % float(_data['block']/summary['executed']*100)
+                summary['block_total_rate'] = 0 \
+                    if summary['total'] == 0 \
+                    else '%.2f' % float(_data['block']/summary['total']*100)
                 summary['notrun'] = _data['notrun']
                 summary['notrun_rate'] = 0 \
                     if summary['total'] == 0 \
