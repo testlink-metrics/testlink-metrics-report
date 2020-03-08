@@ -54,7 +54,7 @@ class TMRClient(object):
                 print(e)
         return platforms 
 
-    def get_summary(self, project_id, plan_id, build_id, platform_id):
+    def get_summary(self, project_id=None, plan_id=None, build_id=None, platform_id=None):
         summary = {
             'total': 0,
             'executed': 0,
@@ -69,7 +69,7 @@ class TMRClient(object):
             'notrun_rate': 0,
             'case': dict()
         }
-        if project_id and plan_id and build_id and platform_id:
+        if project_id and plan_id:
             try:
                 _data = self.testlink.get_report_for_plan(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id)
                 summary['total'] = sum([_data['pass'], _data['fail'], _data['block'], _data['notrun']])

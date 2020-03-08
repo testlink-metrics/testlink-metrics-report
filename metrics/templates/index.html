@@ -220,7 +220,7 @@
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
           var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&suite_id=');
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&suite_id=&report=0');
         });
         $('#tmrSelectPlan').on('change', function () {
           var project_id = $('#tmrSelectProject').val();
@@ -228,7 +228,7 @@
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
           var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&suite_id');
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&suite_id=report=0');
         });
         $('#tmrGenerateReport').click(function () {
           var project_id = $('#tmrSelectProject').val();
@@ -236,7 +236,7 @@
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
           var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id);
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id' + suite_id + '&report=1');
         });
       });
     </script>
