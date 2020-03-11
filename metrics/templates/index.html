@@ -124,7 +124,12 @@
           </div>
         </div>
         <div class="row" style="margin-top: 15px;">
-          <div class="col-12">Executed Results: PASS {{ summary.pass }} | FAIL {{ summary.fail }} | BLOCK {{ summary.block }}</div>
+          <div class="col-12">
+            Executed Results:
+            PASS <sup><span class="badge badge-pill badge-success">{{ summary.pass }}</span></sup>
+            FAIL <sup><span class="badge badge-pill badge-danger">{{ summary.fail }}</span></sup>
+            BLOCK <sup><span class="badge badge-pill badge-warning">{{ summary.block }}</span></sup>
+          </div>
         </div>
         <div class="row">
           <div class="col-12">
@@ -178,9 +183,9 @@
             </table>
           </div>
         </div>
-        <div class="row" style="margin-top: 20px;">
+        <div class="row" style="margin-top: 20px; font-size: 12px;">
           <div class="col-12">
-            <table class="table table-bordered table-secondary">
+            <table class="table table-sm table-bordered table-secondary">
               <thead>
                 <tr>
                   <th scope="col">ID</th>
@@ -195,16 +200,25 @@
                   <td>{{ ckey }}</td>
                   <td>{{ cvalue.case_name }}</td>
                   {% if cvalue.exec_status == 'p' %}
-                  <td class="text-success">PASS</td>
+                  <td class="text-success"><strong>PASS</strong></td>
                   <td></td>
                   {% elif cvalue.exec_status == 'f' %}
-                  <td class="text-danger">FAIL</td>
+                  <td class="text-danger"><strong>FAIL</strong></td>
+                  <td>
+                    {% for bug in cvalue.bugs %}
+                    <a class="badge badge-primary" href="#" target="_blank">{{ bug }}</a>
+                    {% endfor %}
+                  </td>
                   <td>{{ cvalue.bugs }}</td>
                   {% elif cvalue.exec_status == 'b' %}
-                  <td class="text-warning">BLOCK</td>
-                  <td>{{ cvalue.bugs }}</td>
+                  <td class="text-warning"><strong>BLOCK</strong></td>
+                  <td>
+                    {% for bug in cvalue.bugs %}
+                    <a class="badge badge-primary" href="#" target="_blank">{{ bug }}</a>
+                    {% endfor %}
+                  </td>
                   {% else %}
-                  <td class="text-secondary">NOTRUN</td>
+                  <td class="text-secondary"><strong>NOTRUN</strong></td>
                   <td></td>
                   {% endif %}
                 </tr>
@@ -215,9 +229,22 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="d-flex align-items-center">
+              <strong>Loading...</strong>
+              <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
       $(function () {
         $('#tmrSelectProject').on('change', function () {
+          $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
@@ -226,6 +253,7 @@
           $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&suite_id=&report=0');
         });
         $('#tmrSelectPlan').on('change', function () {
+          $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
@@ -234,6 +262,7 @@
           $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&suite_id=report=0');
         });
         $('#tmrGenerateReport').click(function () {
+          $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
