@@ -209,7 +209,6 @@
                     <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
                     {% endfor %}
                   </td>
-                  <td>{{ cvalue.bugs }}</td>
                   {% elif cvalue.exec_status == 'b' %}
                   <td class="text-warning"><strong>BLOCK</strong></td>
                   <td>
@@ -229,18 +228,19 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="d-flex align-items-center">
-              <strong>Loading...</strong>
-              <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-            </div>
+  </div>
+  <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
     <script>
       $(function () {
         $('#tmrSelectProject').on('change', function () {

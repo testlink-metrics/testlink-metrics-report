@@ -3,7 +3,6 @@
 
 from TestlinkApiClient.tlxmlrpc import TestlinkClient
 import os
-from urllib.parse import urljoin
 
 
 class TMRClient(object):
@@ -105,7 +104,7 @@ class TMRClient(object):
                     if summary['total'] == 0 \
                     else '%.2f' % float(_data['notrun']/summary['total']*100)
                 summary['case'] = _data['case']
-                summary['issue_tracker_uri'] = urljoin(base=self.issue_tracker_uri_view, url='/')
+                summary['issue_tracker_uri'] = self.issue_tracker_uri_view
             except Exception as e:
                 print(e)
         return summary
