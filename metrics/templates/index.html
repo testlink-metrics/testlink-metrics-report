@@ -206,7 +206,7 @@
                   <td class="text-danger"><strong>FAIL</strong></td>
                   <td>
                     {% for bug in cvalue.bugs %}
-                    <a class="badge badge-primary" href="#" target="_blank">{{ bug }}</a>
+                    <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
                     {% endfor %}
                   </td>
                   <td>{{ cvalue.bugs }}</td>
@@ -214,7 +214,7 @@
                   <td class="text-warning"><strong>BLOCK</strong></td>
                   <td>
                     {% for bug in cvalue.bugs %}
-                    <a class="badge badge-primary" href="#" target="_blank">{{ bug }}</a>
+                    <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
                     {% endfor %}
                   </td>
                   {% else %}
