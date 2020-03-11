@@ -21,13 +21,15 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-  <title>TestLink Metrics Report</title>
+<!--  <title>TestLink Metrics Report</title>-->
+  <title>Metrics Report</title>
 </head>
 
 <body class="bg-dark">
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">TestLink Metrics Report</a>
+<!--      <a class="navbar-brand" href="#">TestLink Metrics Report</a>-->
+      <a class="navbar-brand" href="#">Metrics Report</a>
       <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -95,8 +97,9 @@
 
   <div class="container text-light" id="tmrReport" style="margin-top: 20px;">
     <div class="row">
-      <div class="col-3" id="tmrReportSuite">
-        <a class="nav-link">Requirement</a>
+      <div class="col-2" id="tmrReportSuite">
+<!--      <div class="col-3" id="tmrReportSuite">-->
+<!--        <a class="nav-link">Requirement</a>-->
         <!-- <ul>
           <li class="el-icon-folder-opened">API
             <ul>
@@ -196,10 +199,10 @@
                   <td></td>
                   {% elif cvalue.exec_status == 'f' %}
                   <td class="text-danger">FAIL</td>
-                  <td></td>
+                  <td>{{ cvalue.bugs }}</td>
                   {% elif cvalue.exec_status == 'b' %}
                   <td class="text-warning">BLOCK</td>
-                  <td></td>
+                  <td>{{ cvalue.bugs }}</td>
                   {% else %}
                   <td class="text-secondary">NOTRUN</td>
                   <td></td>
