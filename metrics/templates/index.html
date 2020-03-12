@@ -278,7 +278,7 @@
           var suite_id = ''
           $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id=' + suite_id + '&report=1');
         });
-        $('#tmrSelectResult).on('change', function () {
+        $('#tmrSelectResult').on('change', function () {
           $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
         });
       });
