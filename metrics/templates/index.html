@@ -172,7 +172,7 @@
                 </tr>
                 <tr>
                   <td>Rate</td>
-                  <td></td>
+                  <td>-</td>
                   <td>{{ summary.executed_rate }}%</td>
                   <td>{{ summary.pass_total_rate }}% | {{ summary.pass_rate }}%</td>
                   <td>{{ summary.fail_total_rate }}% | {{ summary.fail_rate }}%</td>
@@ -185,12 +185,20 @@
         </div>
         <div class="row" style="margin-top: 20px; font-size: 12px;">
           <div class="col-12">
-            <table class="table table-sm table-bordered table-secondary">
+            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable">
               <thead>
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Title</th>
-                  <th scope="col">Result</th>
+                  <th scope="col">Result
+                    <select id="tmrSelectResult">
+                      <option value="">ALL</option>
+                      <option value="PASS">PASS</option>
+                      <option value="FAIL">FAIL</option>
+                      <option value="BLOCK">BLOCK</option>
+                      <option value="NOTRUN">NOTRUN</option>
+                    </select>
+                  </th>
                   <th scope="col">Bug</th>
                 </tr>
               </thead>
@@ -269,6 +277,9 @@
           var platform_id = $('#tmrSelectPlatform').val();
           var suite_id = ''
           $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id=' + suite_id + '&report=1');
+        });
+        $('#tmrSelectResult).on('change', function () {
+          $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
         });
       });
     </script>
