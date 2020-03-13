@@ -24,5 +24,3 @@ or you can leverage `docker-compose`
 docker-compose -f docker-compose.yaml
 ```
 variable `ISSUE_TRACKER_URI_VIEW` is optional
-
-
