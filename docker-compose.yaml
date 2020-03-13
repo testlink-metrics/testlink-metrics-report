@@ -10,3 +10,4 @@ services:
       TESTLINK_URL: ''
       TESTLINK_USER: ''
       TESTLINK_DEVKEY: ''
+      ISSUE_TRACKER_URI_VIEW: ''

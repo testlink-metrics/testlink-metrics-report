@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Author: Will v.stone@163.com
 
 from TestlinkApiClient.tlxmlrpc import TestlinkClient
 import os
