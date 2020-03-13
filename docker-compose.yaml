@@ -1,0 +1,13 @@
+version: '3'
+services: 
+  testlink-metrics:
+    container_name: testlink-metrics
+    image: bxwill/testlink-metrics
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      TESTLINK_URL: ''
+      TESTLINK_USER: ''
+      TESTLINK_DEVKEY: ''
+      ISSUE_TRACKER_URI_VIEW: ''

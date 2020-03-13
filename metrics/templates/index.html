@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <title>TestLink Metrics Report</title>
+<!--  <title>Metrics Report</title>-->
+</head>
+
+<body class="bg-dark">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--      <a class="navbar-brand" href="#">TestLink Metrics Report</a>-->
+      <a class="navbar-brand" href="#">Metrics Report</a>
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active col-3">
+          <a class="nav-link">Project</a>
+          <select class="custom-select" id="tmrSelectProject">
+            <option value="">Choose...</option>
+            {% for opt_project_id, opt_project_name in projects.items() %}
+            {% if opt_project_id == project_id %}
+            <option selected value="{{ opt_project_id }}">{{ opt_project_name }}</option>
+            {% else %}
+            <option value="{{ opt_project_id }}">{{ opt_project_name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+        <li class="nav-item active col-3">
+          <a class="nav-link">Plan</a>
+          <select class="custom-select" id="tmrSelectPlan">
+            <option value="">Choose...</option>
+            {% for opt_plan_id, opt_plan_name in plans.items() %}
+            {% if opt_plan_id == plan_id %}
+            <option selected value="{{ opt_plan_id }}">{{ opt_plan_name }}</option>
+            {% else %}
+            <option value="{{ opt_plan_id }}">{{ opt_plan_name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+        <li class="nav-item active col-3">
+          <a class="nav-link">Build</a>
+          <select class="custom-select" id="tmrSelectBuild">
+            <option value="">Choose...</option>
+            {% for opt_build_id, opt_build_name in builds.items() %}
+            {% if opt_build_id == build_id %}
+            <option selected value="{{ opt_build_id }}">{{ opt_build_name }}</option>
+            {% else %}
+            <option value="{{ opt_build_id }}">{{ opt_build_name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+        <li class="nav-item active col-3">
+          <a class="nav-link">Platform</a>
+          <select class="custom-select" id="tmrSelectPlatform">
+            <option value="">Choose...</option>
+            {% for opt_platform_id, opt_platform_name in platforms.items() %}
+            {% if opt_platform_id == platform_id %}
+            <option selected value="{{ opt_platform_id }}">{{ opt_platform_name }}</option>
+            {% else %}
+            <option value="{{ opt_platform_id }}">{{ opt_platform_name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+        <li class="nav-item col-3">
+          <span class="nav-link">{{ tmr_version }}</span>
+          <button class="btn btn-outline-light" id="tmrGenerateReport">Generate</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container text-light" id="tmrReport" style="margin-top: 20px;">
+    <div class="row">
+<!--      <div class="col-2">-->
+      <div class="col-3">
+        <a class="nav-link el-icon-shopping-cart-1">Requirement</a>
+        <ul id="tmrReq" style="margin-left: -24px;">
+          {% if not summary.requirement %}
+          <li class="el-icon-folder text-secondary" value="" style="margin-left: 24px;">No Requirement</li>
+          {% endif %}
+          {% for requirement_id, requirement_doc_id in summary.requirement.items() %}
+          {% if req_id == requirement_id %}
+          <li class="btn btn-dark el-icon-folder-opened bg-secondary" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
+          {% else %}
+          <li class="btn btn-dark el-icon-folder" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-8" id="tmrReportDetail">
+        <div class="row">
+          <div class="col-12">Progress: {{ summary.executed_rate }}% [ {{ summary.executed }}/{{ summary.total }} ]</div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="progress" style="height: 20px;">
+              <div class="progress-bar bg-primary" role="progressbar" style="width: {{ summary.executed_rate }}%"
+                aria-valuenow="{{ summary.executed_rate }}" aria-valuemin="0" aria-valuemax="100">
+                {{ summary.executed_rate }}%</div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+          <div class="col-12">
+            Executed Results:
+            PASS <sup><span class="badge badge-pill badge-success">{{ summary.pass }}</span></sup>
+            FAIL <sup><span class="badge badge-pill badge-danger">{{ summary.fail }}</span></sup>
+            BLOCK <sup><span class="badge badge-pill badge-warning">{{ summary.block }}</span></sup>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="progress" style="height: 20px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: {{ summary.pass_rate }}%"
+                aria-valuenow="{{ summary.pass_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.pass_rate }}%
+              </div>
+              <div class="progress-bar bg-danger" role="progressbar" style="width: {{ summary.fail_rate }}%"
+                aria-valuenow="{{ summary.fail_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.fail_rate }}%
+              </div>
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{ summary.block_rate }}%"
+                aria-valuenow="{{ summary.block_rate }}" aria-valuemin="0" aria-valuemax="100">{{ summary.block_rate }}%
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+          <div class="col-12">
+            <table class="table table-bordered table-dark text-center">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Executed</th>
+                  <th scope="col">Pass</th>
+                  <th scope="col">Fail</th>
+                  <th scope="col">Block</th>
+                  <th scope="col">NotRun</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Count</td>
+                  <td>{{ summary.total }}</td>
+                  <td>{{ summary.executed }}</td>
+                  <td>{{ summary.pass }}</td>
+                  <td>{{ summary.fail }}</td>
+                  <td>{{ summary.block }}</td>
+                  <td>{{ summary.notrun }}</td>
+                </tr>
+                <tr>
+                  <td>Rate</td>
+                  <td>-</td>
+                  <td>{{ summary.executed_rate }}%</td>
+                  <td>{{ summary.pass_total_rate }}% | {{ summary.pass_rate }}%</td>
+                  <td>{{ summary.fail_total_rate }}% | {{ summary.fail_rate }}%</td>
+                  <td>{{ summary.block_total_rate }}% | {{ summary.block_rate }}%</td>
+                  <td>{{ summary.notrun_rate }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px; font-size: 12px;">
+          <div class="col-12">
+            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Result
+                    <select id="tmrSelectResult">
+                      <option value="">ALL</option>
+                      <option value="PASS">PASS</option>
+                      <option value="FAIL">FAIL</option>
+                      <option value="BLOCK">BLOCK</option>
+                      <option value="NOTRUN">NOTRUN</option>
+                    </select>
+                  </th>
+                  <th scope="col">Bug</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if not summary.case %}
+                <tr><td colspan="4" class="text-center text-secondary">No Result</td></tr>
+                {% endif %}
+                {% for cid, cinfo in summary.case.items() %}
+                <tr>
+                  <td>{{ cid}}</td>
+                  <td>{{ cinfo.case_name }}</td>
+                  {% if cinfo.exec_status == 'p' %}
+                  <td class="text-success"><strong>PASS</strong></td>
+                  <td></td>
+                  {% elif cinfo.exec_status == 'f' %}
+                  <td class="text-danger"><strong>FAIL</strong></td>
+                  <td>
+                    {% for bug in cinfo.bugs %}
+                    <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
+                    {% endfor %}
+                  </td>
+                  {% elif cinfo.exec_status == 'b' %}
+                  <td class="text-warning"><strong>BLOCK</strong></td>
+                  <td>
+                    {% for bug in cinfo.bugs %}
+                    <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
+                    {% endfor %}
+                  </td>
+                  {% else %}
+                  <td class="text-secondary"><strong>NOTRUN</strong></td>
+                  <td></td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script>
+      $(function () {
+
+        $('#tmrSelectProject').on('change', function () {
+          $('#loadingModal').modal('show');
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&req_id=&report=0');
+        });
+
+        $('#tmrSelectPlan').on('change', function () {
+          $('#loadingModal').modal('show');
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&req_id=report=0');
+        });
+
+        $('#tmrGenerateReport').click(function () {
+          $('#loadingModal').modal('show');
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=&report=1');
+        });
+
+        $('#tmrReq li').click(function () {
+          $('#loadingModal').modal('show');
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          var req_id = $('#tmrReq li').eq($(this).index()).val();
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=' + req_id + '&report=1');
+        });
+
+        $('#tmrSelectResult').on('change', function () {
+          $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
+        });
+
+      });
+
+    </script>
+</body>
+
+</html>
