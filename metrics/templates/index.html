@@ -97,18 +97,18 @@
 
   <div class="container text-light" id="tmrReport" style="margin-top: 20px;">
     <div class="row">
-      <div class="col-2" id="tmrReportSuite">
-<!--      <div class="col-3" id="tmrReportSuite">-->
-<!--        <a class="nav-link">Requirement</a>-->
-        <!-- <ul>
-          <li class="el-icon-folder-opened">API
-            <ul>
-              <li class="el-icon-document">Case 1</li><br>
-            </ul>
-          </li><br>
-          <li class="el-icon-folder-opened">登录</li><br>
-          <li class="el-icon-folder-opened">注册</li><br>
-        </ul> -->
+      <div class="col-2">
+<!--      <div class="col-3">-->
+        <a class="nav-link el-icon-shopping-cart-1">Requirement</a>
+        <ul id="tmrReq" style="margin-left: -24px;">
+          {% for requirement_id, requirement_doc_id in summary.requirement.items() %}
+          {% if req_id == requirement_id %}
+          <li class="btn btn-dark el-icon-folder-opened bg-secondary" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
+          {% else %}
+          <li class="btn btn-dark el-icon-folder" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
       </div>
       <div class="col-8" id="tmrReportDetail">
         <div class="row">
@@ -203,24 +203,27 @@
                 </tr>
               </thead>
               <tbody>
-                {% for ckey, cvalue in summary.case.items() %}
+                {% if not summary.case %}
+                <tr><td colspan="4" class="text-center text-secondary">No Result</td></tr>
+                {% endif %}
+                {% for cid, cinfo in summary.case.items() %}
                 <tr>
-                  <td>{{ ckey }}</td>
-                  <td>{{ cvalue.case_name }}</td>
-                  {% if cvalue.exec_status == 'p' %}
+                  <td>{{ cid}}</td>
+                  <td>{{ cinfo.case_name }}</td>
+                  {% if cinfo.exec_status == 'p' %}
                   <td class="text-success"><strong>PASS</strong></td>
                   <td></td>
-                  {% elif cvalue.exec_status == 'f' %}
+                  {% elif cinfo.exec_status == 'f' %}
                   <td class="text-danger"><strong>FAIL</strong></td>
                   <td>
-                    {% for bug in cvalue.bugs %}
+                    {% for bug in cinfo.bugs %}
                     <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
                     {% endfor %}
                   </td>
-                  {% elif cvalue.exec_status == 'b' %}
+                  {% elif cinfo.exec_status == 'b' %}
                   <td class="text-warning"><strong>BLOCK</strong></td>
                   <td>
-                    {% for bug in cvalue.bugs %}
+                    {% for bug in cinfo.bugs %}
                     <a class="badge badge-primary" href="{{ summary.issue_tracker_uri }}{{ bug }}" target="_blank">{{ bug }}</a>
                     {% endfor %}
                   </td>
@@ -251,37 +254,50 @@
   </div>
     <script>
       $(function () {
+
         $('#tmrSelectProject').on('change', function () {
           $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
-          var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&suite_id=&report=0');
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&req_id=&report=0');
         });
+
         $('#tmrSelectPlan').on('change', function () {
           $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
-          var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&suite_id=report=0');
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&req_id=report=0');
         });
+
         $('#tmrGenerateReport').click(function () {
           $('#loadingModal').modal('show');
           var project_id = $('#tmrSelectProject').val();
           var plan_id = $('#tmrSelectPlan').val();
           var build_id = $('#tmrSelectBuild').val();
           var platform_id = $('#tmrSelectPlatform').val();
-          var suite_id = ''
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&suite_id=' + suite_id + '&report=1');
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=&report=1');
         });
+
+        $('#tmrReq li').click(function () {
+          $('#loadingModal').modal('show');
+          var project_id = $('#tmrSelectProject').val();
+          var plan_id = $('#tmrSelectPlan').val();
+          var build_id = $('#tmrSelectBuild').val();
+          var platform_id = $('#tmrSelectPlatform').val();
+          var req_id = $('#tmrReq li').eq($(this).index()).val();
+          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=' + req_id + '&report=1');
+        });
+
         $('#tmrSelectResult').on('change', function () {
           $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
         });
+
       });
+
     </script>
 </body>
 

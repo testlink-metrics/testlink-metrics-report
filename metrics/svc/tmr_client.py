@@ -13,13 +13,13 @@ class TMRClient(object):
         self.tl_dev_key = os.getenv('TESTLINK_DEVKEY')
         self.issue_tracker_uri_view = os.getenv('ISSUE_TRACKER_URI_VIEW')
         self.testlink = TestlinkClient(self.tl_url, self.tl_user, self.tl_dev_key)
-        self.projects = dict()
-        self.plans = dict()
-        self.builds = dict() 
-        self.platforms = dict() 
-        self.summary = dict()
-    
+
     def list_project(self):
+        """
+        List Project
+        :return:
+            {project_id: project_name}
+        """
         projects = dict()
         try:
             for pid, pname in self.testlink.list_project().items():
@@ -29,6 +29,12 @@ class TMRClient(object):
         return projects
     
     def list_plan(self, project_id):
+        """
+        List Plan
+        :param project_id:
+        :return:
+            {plan_id: plan_name}
+        """
         plans = dict()
         try:
             for pid, pname in self.testlink.list_plan(project_id=project_id).items():
@@ -38,6 +44,12 @@ class TMRClient(object):
         return plans
 
     def list_build(self, plan_id):
+        """
+        List Build
+        :param plan_id:
+        :return:
+            {build_id: build_name}
+        """
         builds = dict()
         if plan_id:
             try:
@@ -47,16 +59,45 @@ class TMRClient(object):
         return builds
 
     def list_platform(self, plan_id):
+        """
+        List Platform
+        :param plan_id:
+        :return:
+            {platform_id: platform_name}
+        """
         platforms = dict()
         if plan_id:
             try:
                 platforms = self.testlink.list_platform(plan_id=plan_id)
             except Exception as e:
                 print(e)
-        return platforms 
+        return platforms
 
-    def get_summary(self, project_id=None, plan_id=None, build_id=None, platform_id=None):
-        summary = {
+    def list_requirement(self, project_id: str, plan_id: str):
+        """
+        Requirement List
+        :param project_id:
+        :param plan_id:
+        :return:
+            {req_id: req_doc_id}
+        """
+        requirements = dict()
+        if project_id and plan_id:
+            requirements = self.testlink.list_requirement(project_id=project_id, plan_id=plan_id)
+        return requirements
+
+    def get_summary(self, project_id=None, plan_id=None, build_id=None, platform_id=None, req_id=None, report=''):
+        """
+        Get Summary of Project + Plan [+ build + platform]
+        :param project_id:
+        :param plan_id:
+        :param build_id:
+        :param platform_id:
+        :param req_id:
+        :param report:
+        :return:
+        """
+        executed_summary = {
             'total': 0,
             'executed': 0,
             'executed_rate': 0,
@@ -68,49 +109,49 @@ class TMRClient(object):
             'block_rate': 0,
             'notrun': 0,
             'notrun_rate': 0,
-            'case': dict()
+            'case': dict(),
+            'issue_tracker_uri': self.issue_tracker_uri_view,
+            'requirement': dict(),
         }
+        if report != '1':
+            return executed_summary
         if project_id and plan_id:
             try:
-                _data = self.testlink.get_report_for_plan(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id)
-                summary['total'] = sum([_data['pass'], _data['fail'], _data['block'], _data['notrun']])
-                summary['executed'] = sum([_data['pass'], _data['fail'], _data['block']])
-                summary['executed_rate'] = 0 \
-                    if summary['total'] == 0 \
-                    else '%.2f' % float(summary['executed']/summary['total']*100)
-                summary['pass'] = _data['pass']
-                summary['pass_rate'] = 0 \
-                    if summary['executed'] == 0 \
-                    else '%.2f' % float(_data['pass']/summary['executed']*100)
-                summary['pass_total_rate'] = 0 \
-                    if summary['total'] == 0 \
-                    else '%.2f' % float(_data['pass'] / summary['total'] * 100)
-                summary['fail'] = _data['fail']
-                summary['fail_rate'] = 0 \
-                    if summary['executed'] == 0 \
-                    else '%.2f' % float(_data['fail']/summary['executed']*100)
-                summary['fail_total_rate'] = 0 \
-                    if summary['total'] == 0 \
-                    else '%.2f' % float(_data['fail']/summary['total']*100)
-                summary['block'] = _data['block']
-                summary['block_rate'] = 0 \
-                    if summary['executed'] == 0 \
-                    else '%.2f' % float(_data['block']/summary['executed']*100)
-                summary['block_total_rate'] = 0 \
-                    if summary['total'] == 0 \
-                    else '%.2f' % float(_data['block']/summary['total']*100)
-                summary['notrun'] = _data['notrun']
-                summary['notrun_rate'] = 0 \
-                    if summary['total'] == 0 \
-                    else '%.2f' % float(_data['notrun']/summary['total']*100)
-                summary['case'] = _data['case']
-                summary['issue_tracker_uri'] = self.issue_tracker_uri_view
+                executed_results = list()
+                executed_summary = dict()
+                requirements = self.list_requirement(project_id, plan_id)
+                cases = self.testlink.get_plan(project_id=project_id,
+                                               plan_id=plan_id,
+                                               build_id=build_id,
+                                               platform_id=platform_id,
+                                               requirement_doc_id=requirements.get(req_id))
+                for case_id, case_info in cases.items():
+                    executed_results.append(case_info.get('exec_status'))
+
+                executed_summary['notrun'] = executed_results.count('n')
+                executed_summary['pass'] = executed_results.count('p')
+                executed_summary['fail'] = executed_results.count('f')
+                executed_summary['block'] = executed_results.count('b')
+                executed_summary['case'] = cases
+                executed_summary['issue_tracker_uri'] = self.issue_tracker_uri_view
+                executed_summary['requirement'] = requirements
+
+                executed_summary['total'] = len(executed_results)
+                executed_summary['pass_total_rate'] = '%.2f' % float(executed_summary['pass'] / executed_summary['total'] * 100) if executed_summary['total'] != 0 else 0
+                executed_summary['fail_total_rate'] = '%.2f' % float(executed_summary['fail'] / executed_summary['total'] * 100) if executed_summary['total'] != 0 else 0
+                executed_summary['block_total_rate'] = '%.2f' % float(executed_summary['block'] / executed_summary['total'] * 100) if executed_summary['total'] != 0 else 0
+                executed_summary['notrun_rate'] = '%.2f' % float(executed_summary['notrun'] / executed_summary['total'] * 100) if executed_summary['total'] != 0 else 0
+
+                executed_summary['executed'] = sum([executed_summary['pass'],
+                                                    executed_summary['fail'],
+                                                    executed_summary['block']])
+                executed_summary['executed_rate'] = '%.2f' % float(executed_summary['executed'] / executed_summary['total'] * 100) if executed_summary['total'] != 0 else 0
+                executed_summary['pass_rate'] = '%.2f' % float(executed_summary['pass'] / executed_summary['executed'] * 100) if executed_summary['executed'] != 0 else 0
+                executed_summary['fail_rate'] = '%.2f' % float(executed_summary['fail'] / executed_summary['executed'] * 100) if executed_summary['executed'] != 0 else 0
+                executed_summary['block_rate'] = '%.2f' % float(executed_summary['block'] / executed_summary['executed'] * 100) if executed_summary['executed'] != 0 else 0
             except Exception as e:
                 print(e)
-        return summary
-    
-    def get_requirement(self):
-        pass
+        return executed_summary
 
 
 if __name__ == '__main__':

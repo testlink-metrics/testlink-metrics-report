@@ -18,8 +18,8 @@ def index():
     plan_id = request.args.get('plan_id')
     build_id = request.args.get('build_id')
     platform_id = request.args.get('platform_id')
-    suite_id = request.args.get('suite_id')
     case_id = request.args.get('case_id')
+    req_id = request.args.get('req_id')
     report = request.args.get('report')
     return render_template(
         'index.html',
@@ -28,13 +28,18 @@ def index():
         plan_id=plan_id,
         build_id=build_id,
         platform_id=platform_id,
-        suite_id=suite_id,
         case_id=case_id,
+        req_id=req_id,
         projects=tmrclient.list_project(),
-        plans=tmrclient.list_plan(project_id=project_id) if project_id else {},
-        builds=tmrclient.list_build(plan_id=plan_id) if plan_id else {},
-        platforms=tmrclient.list_platform(plan_id=plan_id) if plan_id else {},
-        summary=tmrclient.get_summary(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id) if report == '1' else tmrclient.get_summary()
+        plans=tmrclient.list_plan(project_id=project_id),
+        builds=tmrclient.list_build(plan_id=plan_id),
+        platforms=tmrclient.list_platform(plan_id=plan_id),
+        summary=tmrclient.get_summary(project_id=project_id,
+                                      plan_id=plan_id,
+                                      build_id=build_id,
+                                      platform_id=platform_id,
+                                      req_id=req_id,
+                                      report=report)
     )
 
 
