@@ -12,6 +12,12 @@ app = Flask(__name__)
 tmrclient = TMRClient()
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('favicon.ico')
+    pass
+
+
 @app.route('/')
 def index():
     project_id = request.args.get('project_id')
