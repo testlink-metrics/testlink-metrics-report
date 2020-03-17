@@ -28,4 +28,4 @@ docker-compose -f docker-compose.yaml
 ```
 variable `ISSUE_TRACKER_URI_VIEW` is optional
 
-![TestLinkMetricsReportPreview](preview.png)
+![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/be18ae80-6837-11ea-94c7-286d3d543c3d)
