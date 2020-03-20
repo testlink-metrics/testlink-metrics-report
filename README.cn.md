@@ -30,12 +30,12 @@ TestLink Metrics Report `TMR` 可以在不登录 TestLink 的情况下，查看�
 export TESTLINK_URL=''
 export TESTLINK_USER=''
 export TESTLINK_DEVKEY=''
-export ISSUE_TRACKER_URI_VIEW=''  # Optional
+export ISSUE_TRACKER_URI_VIEW=''  # 可选的
 docker run -d -p 80:80 -e TESTLINK_URL:${TESTLINK_URL} -e TESTLINK_USER:${TESTLINK_USER} -e TESTLINK_DEVKEY:${TESTLINK_DEVKEY} -it bxwill/testlink-metrics
 ```
 或者你也可以使用 `docker-compose`
 ```bash
-docker-compose -f docker-compose.yaml
+docker-compose -f docker-compose.yaml up -d
 ```
 变量 `ISSUE_TRACKER_URI_VIEW` 是可选的。
 

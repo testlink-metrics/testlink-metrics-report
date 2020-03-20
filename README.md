@@ -36,7 +36,7 @@ docker run -d -p 80:80 -e TESTLINK_URL:${TESTLINK_URL} -e TESTLINK_USER:${TESTLI
 ```
 or you can leverage `docker-compose`
 ```bash
-docker-compose -f docker-compose.yaml
+docker-compose -f docker-compose.yaml up -d
 ```
 variable `ISSUE_TRACKER_URI_VIEW` is optional
 
