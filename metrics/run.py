@@ -49,5 +49,15 @@ def index():
     )
 
 
+@app.route('/case')
+def case():
+    project_id = request.args.get('project_id')
+    case_ext_id = request.args.get('case_ext_id')
+    return render_template(
+        'case.html',
+        case=tmrclient.get_case(project_id=project_id, case_ext_id=case_ext_id)
+    )
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

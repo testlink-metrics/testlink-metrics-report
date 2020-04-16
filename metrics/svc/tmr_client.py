@@ -87,6 +87,17 @@ class TMRClient(object):
             requirements = self.testlink.list_requirement(project_id=project_id, plan_id=plan_id)
         return requirements
 
+    def get_case(self, project_id: str, case_ext_id: str):
+        case_detail = self.testlink.get_case(project_id=project_id, case_ext_id=case_ext_id)
+        case_info = {
+            'ext_id': case_detail[0].get('full_tc_external_id'),
+            'name': case_detail[0].get('name'),
+            'summary': case_detail[0].get('summary'),
+            'preconditions': case_detail[0].get('preconditions'),
+            'steps': case_detail[0].get('steps'),
+        }
+        return case_info
+
     def get_summary(self, project_id=None, plan_id=None, build_id=None, platform_id=None, req_id=None, report=''):
         """
         Get Summary of Project + Plan [+ build + platform]
