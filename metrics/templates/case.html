@@ -48,7 +48,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{ case.summary }}</td>
+            <td>{{ case.summary | safe }}</td>
           </tr>
         </tbody>
       </table>
@@ -60,7 +60,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{ case.preconditions }}</td>
+            <td>{{ case.preconditions | safe }}</td>
           </tr>
         </tbody>
       </table>
@@ -76,8 +76,8 @@
           {% for case_step in case.steps %}
           <tr>
             <td>{{ case_step.step_number }}</td>
-            <td>{{ case_step.actions }}</td>
-            <td>{{ case_step.expected_results }}</td>
+            <td>{{ case_step.actions | safe }}</td>
+            <td>{{ case_step.expected_results | safe }}</td>
           </tr>
           {% endfor %}
         </tbody>
