@@ -218,7 +218,7 @@
                 {% endif %}
                 {% for cid, cinfo in summary.case.items() %}
                 <tr>
-                  <td>{{ cid}}</td>
+                  <td><a href="/case?project_id={{ project_id }}&case_ext_id={{ cid }}" target="_blank">{{ cid }}</a></td>
                   <td>{{ cinfo.case_name }}</td>
                   {% if cinfo.exec_status == 'p' %}
                   <td class="text-success"><strong>PASS</strong></td>
@@ -262,53 +262,53 @@
       </div>
     </div>
   </div>
-    <script>
-      $(function () {
+  <script>
+    $(function () {
 
-        $('#tmrSelectProject').on('change', function () {
-          $('#loadingModal').modal('show');
-          var project_id = $('#tmrSelectProject').val();
-          var plan_id = $('#tmrSelectPlan').val();
-          var build_id = $('#tmrSelectBuild').val();
-          var platform_id = $('#tmrSelectPlatform').val();
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&req_id=&report=0');
-        });
-
-        $('#tmrSelectPlan').on('change', function () {
-          $('#loadingModal').modal('show');
-          var project_id = $('#tmrSelectProject').val();
-          var plan_id = $('#tmrSelectPlan').val();
-          var build_id = $('#tmrSelectBuild').val();
-          var platform_id = $('#tmrSelectPlatform').val();
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&req_id=report=0');
-        });
-
-        $('#tmrGenerateReport').click(function () {
-          $('#loadingModal').modal('show');
-          var project_id = $('#tmrSelectProject').val();
-          var plan_id = $('#tmrSelectPlan').val();
-          var build_id = $('#tmrSelectBuild').val();
-          var platform_id = $('#tmrSelectPlatform').val();
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=&report=1');
-        });
-
-        $('#tmrReq li').click(function () {
-          $('#loadingModal').modal('show');
-          var project_id = $('#tmrSelectProject').val();
-          var plan_id = $('#tmrSelectPlan').val();
-          var build_id = $('#tmrSelectBuild').val();
-          var platform_id = $('#tmrSelectPlatform').val();
-          var req_id = $('#tmrReq li').eq($(this).index()).val();
-          $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=' + req_id + '&report=1');
-        });
-
-        $('#tmrSelectResult').on('change', function () {
-          $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
-        });
-
+      $('#tmrSelectProject').on('change', function () {
+        $('#loadingModal').modal('show');
+        var project_id = $('#tmrSelectProject').val();
+        var plan_id = $('#tmrSelectPlan').val();
+        var build_id = $('#tmrSelectBuild').val();
+        var platform_id = $('#tmrSelectPlatform').val();
+        $(location).attr('href', '?project_id=' + project_id + '&plan_id=&build_id=&platform_id=&req_id=&report=0');
       });
 
-    </script>
+      $('#tmrSelectPlan').on('change', function () {
+        $('#loadingModal').modal('show');
+        var project_id = $('#tmrSelectProject').val();
+        var plan_id = $('#tmrSelectPlan').val();
+        var build_id = $('#tmrSelectBuild').val();
+        var platform_id = $('#tmrSelectPlatform').val();
+        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=&platform_id=&req_id=report=0');
+      });
+
+      $('#tmrGenerateReport').click(function () {
+        $('#loadingModal').modal('show');
+        var project_id = $('#tmrSelectProject').val();
+        var plan_id = $('#tmrSelectPlan').val();
+        var build_id = $('#tmrSelectBuild').val();
+        var platform_id = $('#tmrSelectPlatform').val();
+        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=&report=1');
+      });
+
+      $('#tmrReq li').click(function () {
+        $('#loadingModal').modal('show');
+        var project_id = $('#tmrSelectProject').val();
+        var plan_id = $('#tmrSelectPlan').val();
+        var build_id = $('#tmrSelectBuild').val();
+        var platform_id = $('#tmrSelectPlatform').val();
+        var req_id = $('#tmrReq li').eq($(this).index()).val();
+        $(location).attr('href', '?project_id=' + project_id + '&plan_id=' + plan_id + '&build_id=' + build_id + '&platform_id=' + platform_id + '&req_id=' + req_id + '&report=1');
+      });
+
+      $('#tmrSelectResult').on('change', function () {
+        $('#tmrCaseTable tbody tr').hide().filter(":contains(" + $('#tmrSelectResult').val() + ")").show();
+      });
+
+    });
+
+  </script>
 </body>
 
 </html>
