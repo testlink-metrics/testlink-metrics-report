@@ -218,7 +218,7 @@
                 {% endif %}
                 {% for cid, cinfo in summary.case.items() %}
                 <tr>
-                  <td><a class="text-dark" href="/case?project_id={{ project_id }}&case_ext_id={{ cid }}" target="_blank">{{ cid }}</a></td>
+                  <td><a class="text-dark" href="./case?project_id={{ project_id }}&case_ext_id={{ cid }}" target="_blank">{{ cid }}</a></td>
                   <td>{{ cinfo.case_name }}</td>
                   {% if cinfo.exec_status == 'p' %}
                   <td class="text-success"><strong>PASS</strong></td>
