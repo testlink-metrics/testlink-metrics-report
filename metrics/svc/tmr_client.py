@@ -4,11 +4,13 @@
 
 from TestlinkApiClient.tlxmlrpc import TestlinkClient
 import os
+import logging
+import inspect
 
 
 class TMRClient(object):
     def __init__(self):
-        self.version = 'TMRv1.0'
+        self.version = 'TMRv1.1'
         self.tl_url = os.getenv('TESTLINK_URL')
         self.tl_user = os.getenv('TESTLINK_USER')
         self.tl_dev_key = os.getenv('TESTLINK_DEVKEY')
@@ -26,7 +28,7 @@ class TMRClient(object):
             for pid, pname in self.testlink.list_project().items():
                 projects[pid] = pname
         except Exception as e:
-            print(e)
+            logging.warning("[ %s %s ] %s" % (__name__, inspect.stack()[0][3], e))
         return projects
     
     def list_plan(self, project_id):
@@ -37,11 +39,12 @@ class TMRClient(object):
             {plan_id: plan_name}
         """
         plans = dict()
-        try:
-            for pid, pname in self.testlink.list_plan(project_id=project_id).items():
-                plans[pid] = pname
-        except Exception as e:
-            print(e)
+        if project_id:
+            try:
+                for pid, pname in self.testlink.list_plan(project_id=project_id).items():
+                    plans[pid] = pname
+            except Exception as e:
+                logging.warning("[ %s %s ] %s" % (__name__, inspect.stack()[0][3], e))
         return plans
 
     def list_build(self, plan_id):
@@ -56,7 +59,7 @@ class TMRClient(object):
             try:
                 builds = self.testlink.list_build(plan_id=plan_id)
             except Exception as e:
-                print(e)
+                logging.warning("[ %s %s ] %s" % (__name__, inspect.stack()[0][3], e))
         return builds
 
     def list_platform(self, plan_id):
@@ -71,7 +74,7 @@ class TMRClient(object):
             try:
                 platforms = self.testlink.list_platform(plan_id=plan_id)
             except Exception as e:
-                print(e)
+                logging.warning("[ %s %s ] %s" % (__name__, inspect.stack()[0][3], e))
         return platforms
 
     def list_requirement(self, project_id: str, plan_id: str):
@@ -133,13 +136,12 @@ class TMRClient(object):
         if project_id and plan_id:
             try:
                 executed_results = list()
-                # executed_summary = dict()
                 requirements = self.list_requirement(project_id, plan_id)
                 cases = self.testlink.get_plan(project_id=project_id,
                                                plan_id=plan_id,
                                                build_id=build_id,
                                                platform_id=platform_id,
-                                               requirement_doc_id=requirements.get(req_id))
+                                               requirement_doc_id=requirements.get(req_id) if req_id else '')
                 for case_id, case_info in cases.items():
                     executed_results.append(case_info.get('exec_status'))
 
@@ -165,7 +167,7 @@ class TMRClient(object):
                 executed_summary['fail_rate'] = '%.2f' % float(executed_summary['fail'] / executed_summary['executed'] * 100) if executed_summary['executed'] != 0 else 0
                 executed_summary['block_rate'] = '%.2f' % float(executed_summary['block'] / executed_summary['executed'] * 100) if executed_summary['executed'] != 0 else 0
             except Exception as e:
-                print(e)
+                logging.warning("[ %s %s ] %s" % (__name__, inspect.stack()[0][3], e))
         return executed_summary
 
 

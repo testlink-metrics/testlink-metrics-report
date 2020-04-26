@@ -45,6 +45,11 @@ variable `ISSUE_TRACKER_URI_VIEW` is optional
 ![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/962f8200-6aa7-11ea-881b-0a2a3781be33)
 
 ## Changelog
+
+- 1.1.0 - `2020-04-26`
+> - Support to print view test case detail
+> - Fix no-platform scenario failure
+
 - 1.0.0 - `2020-03-20`
 > - Select project/plan/build/platform to generate report
 > - Testing progress and results can be found from the report

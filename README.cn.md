@@ -44,6 +44,11 @@ docker-compose -f docker-compose.yaml up -d
 ![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/962f8200-6aa7-11ea-881b-0a2a3781be33)
 
 ## 版本记录
+
+- 1.1.0 - `2020-04-26`
+> - 展示测试用例详细内容
+> - 修复测试计划无测试平台场景下的错误
+
 - 1.0.0 - `2020-03-20`
 > - 选择项目、计划、版本、平台来生成报告
 > - 报告包含测试进度和结果
