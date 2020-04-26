@@ -133,7 +133,7 @@ class TMRClient(object):
         if project_id and plan_id:
             try:
                 executed_results = list()
-                executed_summary = dict()
+                # executed_summary = dict()
                 requirements = self.list_requirement(project_id, plan_id)
                 cases = self.testlink.get_plan(project_id=project_id,
                                                plan_id=plan_id,
