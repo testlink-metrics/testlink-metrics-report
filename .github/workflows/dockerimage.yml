@@ -1,12 +1,7 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches:
-      - master
-      - develop
-    tags:
-      - *
+  - push
 
 env:
   IMG: bxwill/testlink-metrics
