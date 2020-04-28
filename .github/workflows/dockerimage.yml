@@ -16,6 +16,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag ${IMG}:${{ github.ref }}
+        TAG=$(echo "${{ github.ref }}" | awk -F '/' '{print $NF}')
+        [[ "${TAG}" == "master" ]] && TAG=latest
+        docker build . --file Dockerfile --tag ${IMG}:${TAG}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
-        docker push ${IMG}:${{ github.ref }}
+        docker push ${IMG}:${TAG}
