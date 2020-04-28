@@ -22,5 +22,5 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile --tag ${IMG}:${{ github.ref }}
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} --password-stdin
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
         docker push ${IMG}:${{ github.ref }}
