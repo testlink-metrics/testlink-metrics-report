@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    tags:
+      - *
+
+env:
+  IMG: bxwill/testlink-metrics
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build . --file Dockerfile --tag ${IMG}:${{ github.ref }}
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} --password-stdin
+        docker push ${IMG}:${{ github.ref }}
