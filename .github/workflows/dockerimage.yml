@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  - push
+
+env:
+  IMG: bxwill/testlink-metrics
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        TAG=$(echo "${{ github.ref }}" | awk -F '/' '{print $NF}')
+        [[ "${TAG}" == "master" ]] && TAG=latest
+        docker build . --file Dockerfile --tag ${IMG}:${TAG}
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+        docker push ${IMG}:${TAG}
