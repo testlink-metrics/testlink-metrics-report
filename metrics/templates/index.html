@@ -195,12 +195,12 @@
         </div>
         <div class="row" style="margin-top: 20px; font-size: 12px;">
           <div class="col-12">
-            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable">
+            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable" style="table-layout: fixed; word-break: break-all">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Result
+                  <th scope="col" style="width: 10%">ID</th>
+                  <th scope="col" style="width: 50%">Title</th>
+                  <th scope="col" style="width: 20%">Result
                     <select id="tmrSelectResult">
                       <option value="">ALL</option>
                       <option value="PASS">PASS</option>
@@ -209,7 +209,7 @@
                       <option value="NOTRUN">NOTRUN</option>
                     </select>
                   </th>
-                  <th scope="col">Bug</th>
+                  <th scope="col" style="width: 20%">Bug</th>
                 </tr>
               </thead>
               <tbody>
