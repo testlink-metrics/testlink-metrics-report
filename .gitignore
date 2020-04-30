@@ -130,4 +130,5 @@ dmypy.json
 
 # debug
 debug.sh
+debug.py
 .idea/

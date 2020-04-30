@@ -90,14 +90,26 @@ class TMRClient(object):
             requirements = self.testlink.list_requirement(project_id=project_id, plan_id=plan_id)
         return requirements
 
-    def get_case(self, project_id: str, case_ext_id: str):
+    def get_case(self, project_id: str, plan_id: str, case_ext_id: str, build_id=None, platform_id=None):
         case_detail = self.testlink.get_case(project_id=project_id, case_ext_id=case_ext_id)
+        case_exec_results = self.testlink._get_last_execution_result(project_id=project_id,
+                                                                     plan_id=plan_id,
+                                                                     build_id=build_id,
+                                                                     platform_id=platform_id,
+                                                                     case_ext_id=case_ext_id)
         case_info = {
             'ext_id': case_detail[0].get('full_tc_external_id'),
             'name': case_detail[0].get('name'),
             'summary': case_detail[0].get('summary'),
             'preconditions': case_detail[0].get('preconditions'),
             'steps': case_detail[0].get('steps'),
+            'exec_plan': self.testlink.list_plan(project_id=project_id).get(plan_id),
+            'exec_build': self.testlink.list_build(project_id=project_id, plan_id=plan_id).get(build_id),
+            'exec_platform': self.testlink.list_platform(project_id=project_id, plan_id=plan_id).get(platform_id),
+            'exec_status': case_exec_results[0].get('status'),
+            'exec_notes': case_exec_results[0].get('notes'),
+            'exec_bugs': case_exec_results[0].get('bugs'),
+            'issue_tracker_uri': self.issue_tracker_uri_view,
         }
         return case_info
 

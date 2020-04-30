@@ -33,46 +33,63 @@
 <body>
   <div class="container" id="tmrCase" style="margin-top: 20px;">
     <div class="row col-12">
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%">
+      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
         <thead>
           <tr>
             <th colspan="3" class="col-12">{{ case.ext_id }}: {{ case.name }}</th>
           </tr>
         </thead>
       </table>
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%">
+      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
         <thead>
           <tr>
             <th>Summary</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{{ case.summary | safe }}</td>
-          </tr>
+        {% if case.summary %}
+        <tr>
+          <td>{{ case.summary | safe }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td class="text-secondary">-</td>
+        </tr>
+        {% endif %}
         </tbody>
       </table>
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%">
+      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
         <thead>
           <tr>
             <th>Preconditions</th>
           </tr>
         </thead>
         <tbody>
+          {% if case.preconditions %}
           <tr>
             <td>{{ case.preconditions | safe }}</td>
           </tr>
+          {% else %}
+          <tr>
+            <td class="text-secondary">-</td>
+          </tr>
+          {% endif %}
         </tbody>
       </table>
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%">
+      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
         <thead>
           <tr>
             <th style="width: 5%">#</th>
             <th style="width: 55%">Step Actions</th>
-            <th style="width: 40">Expected Results</th>
+            <th style="width: 40%">Expected Results</th>
           </tr>
         </thead>
         <tbody>
+          {% if not case.steps %}
+          <tr>
+            <td colspan="3" class="text-center text-secondary">No Steps</td>
+          </tr>
+          {% endif %}
           {% for case_step in case.steps %}
           <tr>
             <td>{{ case_step.step_number }}</td>
@@ -80,6 +97,55 @@
             <td>{{ case_step.expected_results | safe }}</td>
           </tr>
           {% endfor %}
+        </tbody>
+      </table>
+      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 20%">Executed in</th>
+            <th scope="col" style="width: 80%">{{ case.exec_plan }}
+              {% if case.exec_build %}
+              {{ case.exec_build }}
+              {% endif %}
+              {% if case.exec_platform %}
+              {{ case.exec_platform }}
+              {% endif %}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Status</th>
+            {% if case.exec_status == 'p' %}
+            <td class="text-success"><strong>PASS</strong></td>
+            {% elif case.exec_status == 'f' %}
+            <td class="text-danger"><strong>FAIL</strong></td>
+            {% elif case.exec_status == 'b' %}
+            <td class="text-warning"><strong>BLOCK</strong></td>
+            {% else %}
+            <td class="text-secondary"><strong>NOTRUN</strong></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Notes</th>
+            {% if case.exec_notes %}
+            <td class="text-secondary">{{ case.exec_notes }}</td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Bugs</th>
+            {% if case.exec_bugs %}
+            <td>
+              {% for bug in case.exec_bugs %}
+              <a class="badge badge-primary" href="{{ case.issue_tracker_uri }}{{ bug.bug_id }}" target="_blank">{{ bug.bug_id }}</a>
+              {% endfor %}
+            </td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+          </tr>
         </tbody>
       </table>
     </div>
