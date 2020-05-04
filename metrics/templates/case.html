@@ -39,42 +39,24 @@
             <th colspan="3" class="col-12">{{ case.ext_id }}: {{ case.name }}</th>
           </tr>
         </thead>
-      </table>
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
-        <thead>
+	<tbody>
+	  <tr><th>Summary</th></tr>
           <tr>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% if case.summary %}
-        <tr>
-          <td>{{ case.summary | safe }}</td>
-        </tr>
-        {% else %}
-        <tr>
-          <td class="text-secondary">-</td>
-        </tr>
-        {% endif %}
-        </tbody>
-      </table>
-      <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
-        <thead>
-          <tr>
-            <th>Preconditions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if case.preconditions %}
-          <tr>
-            <td>{{ case.preconditions | safe }}</td>
-          </tr>
-          {% else %}
-          <tr>
+            {% if case.summary %}
+            <td>{{ case.summary | safe }}</td>
+            {% else %}
             <td class="text-secondary">-</td>
+            {% endif %}
+	  </tr>
+	  <tr><th>Preconditions</th></tr>
+          <tr>
+            {% if case.preconditions %}
+            <td>{{ case.preconditions | safe }}</td>
+            {% else %}
+            <td class="text-secondary">-</td>
+            {% endif %}
           </tr>
-          {% endif %}
-        </tbody>
+	</tbody>
       </table>
       <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-break: break-all">
         <thead>
@@ -86,9 +68,7 @@
         </thead>
         <tbody>
           {% if not case.steps %}
-          <tr>
-            <td colspan="3" class="text-center text-secondary">No Steps</td>
-          </tr>
+          <tr><td colspan="3" class="text-center text-secondary">No Steps</td></tr>
           {% endif %}
           {% for case_step in case.steps %}
           <tr>
@@ -103,13 +83,10 @@
         <thead>
           <tr>
             <th scope="col" style="width: 20%">Executed in</th>
-            <th scope="col" style="width: 80%">{{ case.exec_plan }}
-              {% if case.exec_build %}
-              {{ case.exec_build }}
-              {% endif %}
-              {% if case.exec_platform %}
-              {{ case.exec_platform }}
-              {% endif %}
+            <th class="text-secondary" scope="col" style="width: 80%">
+	      Plan[{{ case.exec_plan }}]
+	      {% if case.exec_build %} Build[{{ case.exec_build }}] {% endif %}
+	      {% if case.exec_platform %} Platform[{{ case.exec_platform }}] {% endif %}
             </th>
           </tr>
         </thead>

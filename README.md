@@ -1,5 +1,5 @@
 # TestLink Metrics Report Tool
-##### EN | [CN](README.cn.md)
+##### English | [中文](README.cn.md)
 
 > Open source software for TestLink metrics
 
@@ -45,6 +45,14 @@ variable `ISSUE_TRACKER_URI_VIEW` is optional
 ![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/962f8200-6aa7-11ea-881b-0a2a3781be33)
 
 ## Changelog
+
+- 1.2.0 - `2020-05-06`
+> - Improve case page to show executed results
+> - Get issue tracker URI from TestLink
+> - Enhance html templates
+
+- 1.1.1 - `2020-04-28`
+> - Fix case page css path error
 
 - 1.1.0 - `2020-04-26`
 > - Support to print view test case detail

@@ -1,5 +1,5 @@
 # TestLink Metrics Report Tool
-##### [英文版](README.md) | 中文版
+##### [English](README.md) | 中文
 
 > TestLink 指标报告开源项目
 
@@ -44,6 +44,14 @@ docker-compose -f docker-compose.yaml up -d
 ![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/962f8200-6aa7-11ea-881b-0a2a3781be33)
 
 ## 版本记录
+
+- 1.2.0 - `2020-05-06`
+> - 增强测试用例展示页面，显示执行结果
+> - 从 TestLink 自动获取 issue tracker URI
+> - 优化 HTML 模板
+
+- 1.1.1 - `2020-04-28`
+> - 修复用例详情页CSS引用路径错误问题
 
 - 1.1.0 - `2020-04-26`
 > - 展示测试用例详细内容
