@@ -106,7 +106,7 @@
           <tr>
             <th>Notes</th>
             {% if case.exec_notes %}
-            <td class="text-secondary">{{ case.exec_notes }}</td>
+            <td class="text-secondary">{{ case.exec_notes }} | safe</td>
             {% else %}
             <td>-</td>
             {% endif %}

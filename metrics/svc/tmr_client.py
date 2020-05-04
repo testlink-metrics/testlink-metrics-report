@@ -107,7 +107,7 @@ class TMRClient(object):
             'exec_build': self.testlink.list_build(project_id=project_id, plan_id=plan_id).get(build_id),
             'exec_platform': self.testlink.list_platform(project_id=project_id, plan_id=plan_id).get(platform_id),
             'exec_status': case_exec_results[0].get('status'),
-            'exec_notes': case_exec_results[0].get('notes'),
+            'exec_notes': case_exec_results[0].get('notes').replace('\n', '<br>'),
             'exec_bugs': case_exec_results[0].get('bugs'),
             'issue_tracker_uri': self.issue_tracker_uri_view,
         }
