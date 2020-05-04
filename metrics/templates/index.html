@@ -154,16 +154,16 @@
         </div>
         <div class="row" style="margin-top: 20px;">
           <div class="col-12">
-            <table class="table table-bordered table-dark text-center">
+            <table class="table table-bordered table-dark text-center" style="table-layout: fixed">
               <thead>
                 <tr>
-                  <th scope="col"></th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Executed</th>
-                  <th scope="col">Pass</th>
-                  <th scope="col">Fail</th>
-                  <th scope="col">Block</th>
-                  <th scope="col">NotRun</th>
+                  <th scope="col" style="width: 10%"></th>
+                  <th scope="col" style="width: 15%">Total</th>
+                  <th scope="col" style="width: 15%">Executed</th>
+                  <th scope="col" style="width: 15%">Pass</th>
+                  <th scope="col" style="width: 15%">Fail</th>
+                  <th scope="col" style="width: 15%">Block</th>
+                  <th scope="col" style="width: 15%">NotRun</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,13 +177,22 @@
                   <td>{{ summary.notrun }}</td>
                 </tr>
                 <tr>
-                  <td>Rate</td>
+	          <td>Rate<br><small class="text-secondary">[/Total]</small></td>
                   <td>-</td>
                   <td>{{ summary.executed_rate }}%</td>
-                  <td>{{ summary.pass_total_rate }}% | {{ summary.pass_rate }}%</td>
-                  <td>{{ summary.fail_total_rate }}% | {{ summary.fail_rate }}%</td>
-                  <td>{{ summary.block_total_rate }}% | {{ summary.block_rate }}%</td>
+                  <td>{{ summary.pass_total_rate }}%</td>
+                  <td>{{ summary.fail_total_rate }}%</td>
+                  <td>{{ summary.block_total_rate }}%</td>
                   <td>{{ summary.notrun_rate }}%</td>
+                </tr>
+                <tr>
+	          <td>Rate<br><small class="text-secondary">[/Executed]</small></td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>{{ summary.pass_rate }}%</td>
+                  <td>{{ summary.fail_rate }}%</td>
+                  <td>{{ summary.block_rate }}%</td>
+                  <td>-</td>
                 </tr>
               </tbody>
             </table>
