@@ -15,9 +15,10 @@ class TMRClient(object):
         self.tl_user = os.getenv('TESTLINK_USER')
         self.tl_dev_key = os.getenv('TESTLINK_DEVKEY')
         self.testlink = TestlinkClient(self.tl_url, self.tl_user, self.tl_dev_key)
-        self.issue_tracker_uri_view = ''
         if os.getenv('TESTLINK_ITS'):
-            self.issue_tracker_uri_view = self.testlink.get_issue_tracker(os.getenv('TESTLINK_ITS').get('uriview')
+            self.issue_tracker_uri_view = self.testlink.get_issue_tracker(os.getenv('TESTLINK_ITS').get('uriview'))
+        else:
+            self.issue_tracker_uri_view = ''
 
     def list_project(self):
         """
