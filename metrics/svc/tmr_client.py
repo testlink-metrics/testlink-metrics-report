@@ -10,12 +10,15 @@ import inspect
 
 class TMRClient(object):
     def __init__(self):
-        self.version = 'TMRv1.1'
+        self.version = 'TMRv1.2'
         self.tl_url = os.getenv('TESTLINK_URL')
         self.tl_user = os.getenv('TESTLINK_USER')
         self.tl_dev_key = os.getenv('TESTLINK_DEVKEY')
-        self.issue_tracker_uri_view = os.getenv('ISSUE_TRACKER_URI_VIEW')
         self.testlink = TestlinkClient(self.tl_url, self.tl_user, self.tl_dev_key)
+        if os.getenv('TESTLINK_ITS'):
+            self.issue_tracker_uri_view = self.testlink.get_issue_tracker(os.getenv('TESTLINK_ITS').get('uriview')
+        else:
+            self.issue_tracker_uri_view = ''
 
     def list_project(self):
         """

@@ -27,17 +27,17 @@ TestLink Metrics Report `TMR` 可以在不登录 TestLink 的情况下，查看�
 
 #### 安装 TMR
 ```bash
-export TESTLINK_URL=''
-export TESTLINK_USER=''
-export TESTLINK_DEVKEY=''
-export ISSUE_TRACKER_URI_VIEW=''  # 可选的
+export TESTLINK_URL: ''      # 必须的: TestLink 地址
+export TESTLINK_USER: ''     # 必须的: TestLink 中的账号
+export TESTLINK_DEVKEY: ''   # 必须的: TestLink Username
+export TESTLINK_ITS: ''      # 可选的: Issue Tracker System Name in TestLink
 docker run -d -p 80:80 -e TESTLINK_URL:${TESTLINK_URL} -e TESTLINK_USER:${TESTLINK_USER} -e TESTLINK_DEVKEY:${TESTLINK_DEVKEY} -it bxwill/testlink-metrics
 ```
 或者你也可以使用 `docker-compose`
 ```bash
 docker-compose -f docker-compose.yaml up -d
 ```
-变量 `ISSUE_TRACKER_URI_VIEW` 是可选的。
+变量 `TESTLINK_ITS` 是可选的。
 
 #### 访问 TMR
 `http://localhost`
@@ -47,7 +47,7 @@ docker-compose -f docker-compose.yaml up -d
 
 - 1.2.0 - `2020-05-06`
 > - 增强测试用例展示页面，显示执行结果
-> - 从 TestLink 自动获取 issue tracker URI
+> - 从 TestLink 通过 ITS 自动获取 issue tracker URI view
 > - 优化 HTML 模板
 
 - 1.1.1 - `2020-04-28`

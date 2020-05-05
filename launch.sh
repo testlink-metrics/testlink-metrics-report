@@ -11,8 +11,8 @@ if [[ -z "${TESTLINK_DEVKEY}" ]]; then
     echo "TESTLINK_DEVKEY is required"
     exit 1
 fi
-if [[ -z "${ISSUE_TRACKER_URI_VIEW}" ]]; then
-    echo "ISSUE_TRACKER_URI_VIEW is optional"
+if [[ -z "${TESTLINK_ITS}" ]]; then
+    echo "TESTLINK_ITS is empty"
 fi
 export PYTHONPATH=$PWD
 python3 metrics/run.py
