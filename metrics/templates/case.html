@@ -105,23 +105,25 @@
           </tr>
           <tr>
             <th>Notes</th>
+	    <td>
             {% if case.exec_notes %}
-            <td class="text-secondary">{{ case.exec_notes | safe }}</td>
+	      <textarea class="text-secondary" style="width: 100%; height: 400px">{{ case.exec_notes | safe }}</textarea></td>
             {% else %}
-            <td>-</td>
+	      -
             {% endif %}
+            <td>-</td>
           </tr>
           <tr>
             <th>Bugs</th>
-            {% if case.exec_bugs %}
             <td>
+            {% if case.exec_bugs %}
               {% for bug in case.exec_bugs %}
               <a class="badge badge-primary" href="{{ case.issue_tracker_uri }}{{ bug.bug_id }}" target="_blank">{{ bug.bug_id }}</a>
               {% endfor %}
-            </td>
             {% else %}
-            <td>-</td>
+              -
             {% endif %}
+            </td>
           </tr>
         </tbody>
       </table>
