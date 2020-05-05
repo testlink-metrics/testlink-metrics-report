@@ -45,7 +45,7 @@ docker-compose -f docker-compose.yaml up -d
 
 ## 版本记录
 
-- 1.2.0 - `2020-05-06`
+- 1.2.0 - `2020-05-05`
 > - 增强测试用例展示页面，显示执行结果
 > - 从 TestLink 通过 ITS 自动获取 issue tracker URI view
 > - 优化 HTML 模板
