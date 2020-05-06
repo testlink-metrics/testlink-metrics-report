@@ -45,11 +45,9 @@
           <select class="custom-select" id="tmrSelectProject">
             <option value="">Choose...</option>
             {% for opt_project_id, opt_project_name in projects.items() %}
-            {% if opt_project_id == project_id %}
-            <option selected value="{{ opt_project_id }}">{{ opt_project_name }}</option>
-            {% else %}
-            <option value="{{ opt_project_id }}">{{ opt_project_name }}</option>
-            {% endif %}
+	    <option {% if opt_project_id == project_id %} selected {% endif %} value="{{ opt_project_id }}">
+	      {{ opt_project_name }}
+	    </option>
             {% endfor %}
           </select>
         </li>
@@ -58,11 +56,9 @@
           <select class="custom-select" id="tmrSelectPlan">
             <option value="">Choose...</option>
             {% for opt_plan_id, opt_plan_name in plans.items() %}
-            {% if opt_plan_id == plan_id %}
-            <option selected value="{{ opt_plan_id }}">{{ opt_plan_name }}</option>
-            {% else %}
-            <option value="{{ opt_plan_id }}">{{ opt_plan_name }}</option>
-            {% endif %}
+            <option {% if opt_plan_id == plan_id %} selected {% endif %} value="{{ opt_plan_id }}">
+	      {{ opt_plan_name }}
+	    </option>
             {% endfor %}
           </select>
         </li>
@@ -71,11 +67,9 @@
           <select class="custom-select" id="tmrSelectBuild">
             <option value="">Choose...</option>
             {% for opt_build_id, opt_build_name in builds.items() %}
-            {% if opt_build_id == build_id %}
-            <option selected value="{{ opt_build_id }}">{{ opt_build_name }}</option>
-            {% else %}
-            <option value="{{ opt_build_id }}">{{ opt_build_name }}</option>
-            {% endif %}
+            <option {% if opt_build_id == build_id %} selected {% endif %} value="{{ opt_build_id }}">
+	      {{ opt_build_name }}
+	    </option>
             {% endfor %}
           </select>
         </li>
@@ -84,11 +78,9 @@
           <select class="custom-select" id="tmrSelectPlatform">
             <option value="">Choose...</option>
             {% for opt_platform_id, opt_platform_name in platforms.items() %}
-            {% if opt_platform_id == platform_id %}
-            <option selected value="{{ opt_platform_id }}">{{ opt_platform_name }}</option>
-            {% else %}
-            <option value="{{ opt_platform_id }}">{{ opt_platform_name }}</option>
-            {% endif %}
+            <option {% if opt_platform_id == platform_id %} selected {% endif %} value="{{ opt_platform_id }}">
+	      {{ opt_platform_name }}
+	    </option>
             {% endfor %}
           </select>
         </li>
@@ -112,11 +104,15 @@
           <li class="el-icon-folder text-secondary" value="" style="margin-left: 24px;">No Requirement</li>
           {% endif %}
           {% for requirement_id, requirement_doc_id in summary.requirement.items() %}
-          {% if req_id == requirement_id %}
-          <li class="btn btn-dark el-icon-folder-opened bg-secondary" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
-          {% else %}
-          <li class="btn btn-dark el-icon-folder" value="{{ requirement_id }}">{{ requirement_doc_id }}</li>
-          {% endif %}
+          <li 
+            {% if req_id == requirement_id %} 
+	    class="btn btn-dark el-icon-folder-opened bg-secondary" 
+            {% else %} 
+            class="btn btn-dark el-icon-folder" 
+	    {% endif %}
+	    value="{{ requirement_id }}">
+            {{ requirement_doc_id }}
+	  </li>
           {% endfor %}
         </ul>
       </div>
@@ -158,16 +154,16 @@
         </div>
         <div class="row" style="margin-top: 20px;">
           <div class="col-12">
-            <table class="table table-bordered table-dark text-center">
+            <table class="table table-bordered table-dark text-center" style="table-layout: fixed">
               <thead>
                 <tr>
-                  <th scope="col"></th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Executed</th>
-                  <th scope="col">Pass</th>
-                  <th scope="col">Fail</th>
-                  <th scope="col">Block</th>
-                  <th scope="col">NotRun</th>
+                  <th scope="col" style="width: 10%"></th>
+                  <th scope="col" style="width: 15%">Total</th>
+                  <th scope="col" style="width: 15%">Executed</th>
+                  <th scope="col" style="width: 15%">Pass</th>
+                  <th scope="col" style="width: 15%">Fail</th>
+                  <th scope="col" style="width: 15%">Block</th>
+                  <th scope="col" style="width: 15%">NotRun</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,13 +177,22 @@
                   <td>{{ summary.notrun }}</td>
                 </tr>
                 <tr>
-                  <td>Rate</td>
+	          <td>Rate<br><small class="text-secondary">[*/Total]</small></td>
                   <td>-</td>
                   <td>{{ summary.executed_rate }}%</td>
-                  <td>{{ summary.pass_total_rate }}% | {{ summary.pass_rate }}%</td>
-                  <td>{{ summary.fail_total_rate }}% | {{ summary.fail_rate }}%</td>
-                  <td>{{ summary.block_total_rate }}% | {{ summary.block_rate }}%</td>
+                  <td>{{ summary.pass_total_rate }}%</td>
+                  <td>{{ summary.fail_total_rate }}%</td>
+                  <td>{{ summary.block_total_rate }}%</td>
                   <td>{{ summary.notrun_rate }}%</td>
+                </tr>
+                <tr>
+	          <td>Rate<br><small class="text-secondary">[*/Exec]</small></td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>{{ summary.pass_rate }}%</td>
+                  <td>{{ summary.fail_rate }}%</td>
+                  <td>{{ summary.block_rate }}%</td>
+                  <td>-</td>
                 </tr>
               </tbody>
             </table>
@@ -195,12 +200,12 @@
         </div>
         <div class="row" style="margin-top: 20px; font-size: 12px;">
           <div class="col-12">
-            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable">
+            <table class="table table-sm table-bordered table-secondary" id="tmrCaseTable" style="table-layout: fixed; word-break: break-all">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Result
+                  <th scope="col" style="width: 10%">ID</th>
+                  <th scope="col" style="width: 55%">Title</th>
+                  <th scope="col" style="width: 20%">Result 
                     <select id="tmrSelectResult">
                       <option value="">ALL</option>
                       <option value="PASS">PASS</option>
@@ -209,7 +214,7 @@
                       <option value="NOTRUN">NOTRUN</option>
                     </select>
                   </th>
-                  <th scope="col">Bug</th>
+                  <th scope="col" style="width: 15%">Bug</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,7 +223,7 @@
                 {% endif %}
                 {% for cid, cinfo in summary.case.items() %}
                 <tr>
-                  <td><a class="text-dark" href="case?project_id={{ project_id }}&case_ext_id={{ cid }}" target="_blank">{{ cid }}</a></td>
+                  <td><a class="text-dark" href="case?project_id={{ project_id }}&plan_id={{ plan_id }}&build_id={{ build_id }}&platform_id={{ platform_id }}&case_ext_id={{ cid }}" target="_blank">{{ cid }}</a></td>
                   <td>{{ cinfo.case_name }}</td>
                   {% if cinfo.exec_status == 'p' %}
                   <td class="text-success"><strong>PASS</strong></td>

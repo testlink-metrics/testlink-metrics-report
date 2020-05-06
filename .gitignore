@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # debug
-debug.sh
+debug.*
 .idea/

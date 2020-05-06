@@ -7,7 +7,7 @@ services:
     ports:
       - 80:80
     environment:
-      TESTLINK_URL: ''
-      TESTLINK_USER: ''
-      TESTLINK_DEVKEY: ''
-      ISSUE_TRACKER_URI_VIEW: ''  # Optional
+      TESTLINK_URL: ''      # Required: URL of TestLink
+      TESTLINK_USER: ''     # Required: Username in TestLink
+      TESTLINK_DEVKEY: ''   # Required: Dev Key of the TestLink Username
+      TESTLINK_ITS: ''      # Optional: Issue Tracker System Name in TestLink

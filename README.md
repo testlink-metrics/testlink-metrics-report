@@ -1,5 +1,5 @@
 # TestLink Metrics Report Tool
-##### EN | [CN](README.cn.md)
+##### English | [中文](README.cn.md)
 
 > Open source software for TestLink metrics
 
@@ -28,23 +28,31 @@ You can choose `Project` `Plan` `Build` `Platform` `Requiment` to generate a HTM
 
 #### Deploy TMR
 ```bash
-export TESTLINK_URL=''
-export TESTLINK_USER=''
-export TESTLINK_DEVKEY=''
-export ISSUE_TRACKER_URI_VIEW=''  # Optional
+export TESTLINK_URL: ''      # Required: URL of TestLink
+export TESTLINK_USER: ''     # Required: Username in TestLink
+export TESTLINK_DEVKEY: ''   # Required: Dev Key of the TestLink Username
+export TESTLINK_ITS: ''      # Optional: Issue Tracker System Name in TestLink
 docker run -d -p 80:80 -e TESTLINK_URL:${TESTLINK_URL} -e TESTLINK_USER:${TESTLINK_USER} -e TESTLINK_DEVKEY:${TESTLINK_DEVKEY} -it bxwill/testlink-metrics
 ```
 or you can leverage `docker-compose`
 ```bash
 docker-compose -f docker-compose.yaml up -d
 ```
-variable `ISSUE_TRACKER_URI_VIEW` is optional
+variable `TESTLINK_ITS` is optional
 
 #### Access TMR
 `http://localhost`
 ![TestLinkMetricsReportPreview](https://repository-images.githubusercontent.com/247091078/962f8200-6aa7-11ea-881b-0a2a3781be33)
 
 ## Changelog
+
+- 1.2.0 - `2020-05-05`
+> - Improve case page to show executed results
+> - Get issue tracker URI view via TestLink ITS
+> - Enhance html templates
+
+- 1.1.1 - `2020-04-28`
+> - Fix case page css path error
 
 - 1.1.0 - `2020-04-26`
 > - Support to print view test case detail

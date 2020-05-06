@@ -52,10 +52,14 @@ def index():
 @app.route('/case')
 def case():
     project_id = request.args.get('project_id')
+    plan_id = request.args.get('plan_id')
+    build_id = request.args.get('build_id')
+    platform_id = request.args.get('platform_id')
     case_ext_id = request.args.get('case_ext_id')
     return render_template(
         'case.html',
-        case=tmrclient.get_case(project_id=project_id, case_ext_id=case_ext_id)
+        case=tmrclient.get_case(project_id=project_id, plan_id=plan_id, build_id=build_id, platform_id=platform_id,
+                                case_ext_id=case_ext_id)
     )
 
 
