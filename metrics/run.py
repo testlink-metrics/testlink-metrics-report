@@ -8,7 +8,7 @@ from metrics.svc.tmr_client import TMRClient
 
 logging.basicConfig(level=logging.INFO, format='[ %(asctime)s ] %(levelname)s %(message)s')
 
-TMR_VERSION = 'TMRv1.2'
+TMR_VERSION = '1.2.1'
 app = Flask(__name__)
 tmrclient = TMRClient()
 

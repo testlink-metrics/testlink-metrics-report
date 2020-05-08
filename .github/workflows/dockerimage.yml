@@ -16,23 +16,29 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
+        echo -e "\nCheck branchs/tags\n"
         GIT_REF=$(echo "${{ github.ref }}" | awk -F '/' '{print $2}')
         TAG=$(echo "${{ github.ref }}" | awk -F '/' '{print $NF}')
         if [[ "${GIT_REF}" == "heads" ]]; then
+            echo -e "\nThis is branch ${TAG}\n"
             if [[ "${TAG}" == "master" ]]; then
                 TAG="latest"
             elif [[ "${TAG}" == "develop" ]]; then
                 TAG="develop"
             fi
         elif [[ "${GIT_REF}" == "tags" ]]; then
+            echo -e "\nThis is tag ${TAG}\n"
             RETAG_1=$(echo ${TAG} | awk -F '.' '{print $1}')
             RETAG_2=$(echo ${TAG} | awk -F '.' '{print $1"."$2}')
         fi
+        echo -e "\nBuild and push tag ${TAG}\n"
         docker build . --file Dockerfile --tag ${IMG}:${TAG}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
         docker push ${IMG}:${TAG}
-        for retag in RETAG_1 RETAG_2
+        [[ "${RETAG_1}" ]]
+        for retag in ${RETAG_1} ${RETAG_2}
         do
+            echo -e "\nRetag ${TAG} to ${retag} and push it\n"
             docker tag ${IMG}:${TAG} ${IMG}:${retag}
             docker push ${IMG}:${retag}
         done
