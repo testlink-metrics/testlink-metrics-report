@@ -10,7 +10,6 @@ import inspect
 
 class TMRClient(object):
     def __init__(self):
-        self.version = 'TMRv1.2'
         self.tl_url = os.getenv('TESTLINK_URL')
         self.tl_user = os.getenv('TESTLINK_USER')
         self.tl_dev_key = os.getenv('TESTLINK_DEVKEY')

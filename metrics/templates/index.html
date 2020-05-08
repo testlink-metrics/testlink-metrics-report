@@ -85,8 +85,8 @@
           </select>
         </li>
         <li class="nav-item col-3">
-          <a class="nav-link text-center" href="https://github.com/testlink-metrics/testlink-metrics-report" target="_blank">
-            <small>{{ tmr_version }}</small>
+          <a class="nav-link text-center" style="margin-left: -20px" href="https://github.com/testlink-metrics/testlink-metrics-report/tree/{{ tmr_version }}" target="_blank">
+            <small>TMRv{{ tmr_version }}</small>
           </a>
           <button class="btn btn-outline-light" id="tmrGenerateReport">Generate</button>
         </li>
@@ -168,16 +168,16 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Count</td>
-                  <td>{{ summary.total }}</td>
-                  <td>{{ summary.executed }}</td>
-                  <td>{{ summary.pass }}</td>
-                  <td>{{ summary.fail }}</td>
-                  <td>{{ summary.block }}</td>
-                  <td>{{ summary.notrun }}</td>
+                  <th><small>ExecRate</small></th>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>{{ summary.pass_rate }}%</td>
+                  <td>{{ summary.fail_rate }}%</td>
+                  <td>{{ summary.block_rate }}%</td>
+                  <td>-</td>
                 </tr>
                 <tr>
-	          <td>Rate<br><small class="text-secondary">[*/Total]</small></td>
+                  <th><small>TotalRate</small></th>
                   <td>-</td>
                   <td>{{ summary.executed_rate }}%</td>
                   <td>{{ summary.pass_total_rate }}%</td>
@@ -186,13 +186,13 @@
                   <td>{{ summary.notrun_rate }}%</td>
                 </tr>
                 <tr>
-	          <td>Rate<br><small class="text-secondary">[*/Exec]</small></td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>{{ summary.pass_rate }}%</td>
-                  <td>{{ summary.fail_rate }}%</td>
-                  <td>{{ summary.block_rate }}%</td>
-                  <td>-</td>
+                  <th><small>Count</small></th>
+                  <td>{{ summary.total }}</td>
+                  <td>{{ summary.executed }}</td>
+                  <td>{{ summary.pass }}</td>
+                  <td>{{ summary.fail }}</td>
+                  <td>{{ summary.block }}</td>
+                  <td>{{ summary.notrun }}</td>
                 </tr>
               </tbody>
             </table>
