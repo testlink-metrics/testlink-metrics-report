@@ -46,6 +46,10 @@ variable `TESTLINK_ITS` is optional
 
 ## Changelog
 
+- 1.2.1 - `2020-05-08`
+> - Enhance case executed status table 
+> - Update top right corner GitHub link
+
 - 1.2.0 - `2020-05-05`
 > - Improve case page to show executed results
 > - Get issue tracker URI view via TestLink ITS
