@@ -16,8 +16,24 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
+        GIT_REF=$(echo "${{ github.ref }}" | awk -F '/' '{print $2}')
         TAG=$(echo "${{ github.ref }}" | awk -F '/' '{print $NF}')
-        [[ "${TAG}" == "master" ]] && TAG=latest
+        if [[ "${GIT_REF}" == "heads" ]]; then
+            if [[ "${TAG}" == "master" ]]; then
+                TAG="latest"
+            elif [[ "${TAG}" == "develop" ]]; then
+                TAG="develop"
+            fi
+        elif [[ "${GIT_REF}" == "tags" ]]; then
+            RETAG_1=$(echo ${TAG} | awk -F '.' '{print $1}')
+            RETAG_2=$(echo ${TAG} | awk -F '.' '{print $1"."$2}')
+        fi
         docker build . --file Dockerfile --tag ${IMG}:${TAG}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
         docker push ${IMG}:${TAG}
+        for retag in RETAG_1 RETAG_2
+        do
+            docker tag ${IMG}:${TAG} ${IMG}:${retag}
+            docker push ${IMG}:${retag}
+        done
+

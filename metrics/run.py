@@ -8,6 +8,7 @@ from metrics.svc.tmr_client import TMRClient
 
 logging.basicConfig(level=logging.INFO, format='[ %(asctime)s ] %(levelname)s %(message)s')
 
+TMR_VERSION = 'TMRv1.2'
 app = Flask(__name__)
 tmrclient = TMRClient()
 
@@ -29,7 +30,7 @@ def index():
     report = request.args.get('report')
     return render_template(
         'index.html',
-        tmr_version=tmrclient.version,
+        tmr_version=TMR_VERSION,
         project_id=project_id,
         plan_id=plan_id,
         build_id=build_id,
